@@ -21,7 +21,7 @@ add dependency
 
     ```xml
     <dependency>
-        <groupId>com.github.debop</groupId>
+        <groupId>com.github.lina</groupId>
         <artifactId>hibernate-redis</artifactId>
         <version>1.6.1</version>
     </dependency>

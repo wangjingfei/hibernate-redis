@@ -4,45 +4,44 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.debop</groupId>
+    <groupId>com.github.lina</groupId>
     <artifactId>hibernate-redis-parent</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>https://github.com/debop/hibernate-redis</url>
+    <url>https://github.com/wangjingfei/hibernate-redis</url>
 
     <modules>
         <module>hibernate-redis</module>
-        <module>hibernate-examples</module>
     </modules>
 
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
+            <distribution>sonatype-nexus-staging</distribution>
         </license>
     </licenses>
 
     <scm>
-        <url>https://github.com/debop/hibernate-redis</url>
+        <url>https://github.com/wangjingfei/hibernate-redis</url>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>repo</id>
-            <url>https://github.com/debop/debop-maven-repo/raw/master/releases</url>
+            <id>sonatype-nexus-staging</id>
+	    <url>http://nexus.anying.me/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>repo-snapshot</id>
-            <url>https://github.com/debop/debop-maven-repo/raw/master/snapshots</url>
+            <id>sonatype-nexus-snapshots</id>
+	    <url>http://nexus.anying.me/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <properties>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.8</jdk.version>
 
-        <hibernate.version>4.3.5.Final</hibernate.version>
-        <springframework.version>4.0.5.RELEASE</springframework.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
+        <springframework.version>4.2.1.RELEASE</springframework.version>
         <querydsl.version>3.3.4</querydsl.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,7 +78,7 @@
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
-                <version>2.5.1</version>
+                <version>2.6.2</version>
             </dependency>
 
             <!-- Snappy-java -->
@@ -304,4 +303,62 @@
             -->
         </plugins>
     </build>
+    <profiles>
+	<profile>
+		<id>release-sign-artifacts</id>
+		<activation>
+			<property>
+				<name>performRelease</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.4</version>
+					<configuration>
+						<passphrase>${gpg.passphrase}</passphrase>
+					</configuration>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+    </profiles>
+    <repositories>
+	    <repository>
+		    <snapshots>
+			    <enabled>true</enabled>
+		    </snapshots>
+		    <releases>
+			    <enabled>true</enabled>
+		    </releases>
+		    <id>Public</id>
+		    <name>Public Repositories</name>
+		    <url>http://nexus.anying.me/nexus/content/groups/public/</url>
+	    </repository>
+    </repositories>
+    <pluginRepositories>
+	    <pluginRepository>
+		    <id>nexus</id>
+		    <name>nexus</name>
+		    <url>http://nexus.anying.me/nexus/content/groups/public/</url>
+		    <releases>
+			    <enabled>true</enabled>
+		    </releases>
+		    <snapshots>
+			    <enabled>true</enabled>
+		    </snapshots>
+	    </pluginRepository>
+    </pluginRepositories>
 </project>
